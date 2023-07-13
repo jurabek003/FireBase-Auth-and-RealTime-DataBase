@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "411970408529",
+    "project_id": "fir-auth-and-realtime-db-ad4ba",
+    "storage_bucket": "fir-auth-and-realtime-db-ad4ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:411970408529:android:2d6c74f072edd373566870",
+        "android_client_info": {
+          "package_name": "uz.turgunboyevjurabek.firebaseauthandrealtimedatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "411970408529-5lm3ic5n9apndhul3nbf4d8hde1pgq5l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvXrt868nm9t70gvsaX1aYOuzaKp_pNbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "411970408529-5lm3ic5n9apndhul3nbf4d8hde1pgq5l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

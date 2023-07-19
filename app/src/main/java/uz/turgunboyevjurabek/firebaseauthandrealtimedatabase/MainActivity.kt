@@ -13,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.databinding.ActivityMainBinding
 import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.madels.User
 
@@ -21,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var auth: FirebaseAuth
     private lateinit var resendingToken: PhoneAuthProvider.ForceResendingToken
+    private lateinit var reference: DatabaseReference
+    lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var user: User
     lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +36,8 @@ class MainActivity : AppCompatActivity() {
                     .requestEmail()
                     .build()
         googleSignInClient= GoogleSignIn.getClient(this,gso)
+        firebaseDatabase= FirebaseDatabase.getInstance()
+        reference=firebaseDatabase.getReference("MyUsers")
 
         auth=FirebaseAuth.getInstance()
         binding.btnSign.setOnClickListener {
@@ -51,8 +57,6 @@ class MainActivity : AppCompatActivity() {
             try {
                 val account=task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken)
-               user=User(account.id.toString(),account.displayName.toString(),account.photoUrl.toString())
-
             }catch (e:ApiException){
 
                 Log.d(TAG,"Google sign in failed")
@@ -65,9 +69,11 @@ class MainActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener {
                 if (it.isSuccessful){
+
                     Toast.makeText(this, "Mufaqqiyatli ura", Toast.LENGTH_SHORT).show()
                     val intent=Intent(this,MainActivity2::class.java)
-                    intent.putExtra("key",user)
+                    user=User(auth.currentUser?.uid,auth.currentUser?.displayName.toString(),auth.currentUser?.photoUrl.toString())
+                    reference.child(user.id!!).setValue(user)
                     startActivity(intent)
                 }else{
                     Toast.makeText(this, "Mufaqqiyatli emas vay", Toast.LENGTH_SHORT).show()

@@ -13,5 +13,6 @@ class User:Serializable {
         this.image = image
 
     }
+    constructor()
 
 }

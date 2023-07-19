@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.squareup.picasso.Picasso
 import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.databinding.ItemRvBinding
 import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.madels.User
-import java.util.ArrayList
 
-class RvAdapter(val list: ArrayList<User>):RecyclerView.Adapter<RvAdapter.Vh>() {
+class RvAdapter(val list: ArrayList<User> = ArrayList()):RecyclerView.Adapter<RvAdapter.Vh>() {
     inner class Vh(val itemRvBinding: ItemRvBinding):ViewHolder(itemRvBinding.root){
         fun onBind(user: User){
             itemRvBinding.itemFullName.text=user.fullName.toString()

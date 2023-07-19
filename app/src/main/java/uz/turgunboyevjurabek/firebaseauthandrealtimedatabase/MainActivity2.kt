@@ -7,12 +7,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.adapter.RvAdapter
 import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.databinding.ActivityMain2Binding
+import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.madels.User
 
 class MainActivity2 : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSingInClient: GoogleSignInClient
     private lateinit var reference: DatabaseReference
+    private lateinit var rvAdapter: RvAdapter
+    private lateinit var list: ArrayList<User>
     lateinit var firebaseDatabase: FirebaseDatabase
     private val binding by lazy { ActivityMain2Binding.inflate(layoutInflater) }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,10 +27,13 @@ class MainActivity2 : AppCompatActivity() {
                     .requestEmail()
                     .build()
         auth= FirebaseAuth.getInstance()
-        val user=auth.currentUser
+        val user=intent.getSerializableExtra("key") as User
         firebaseDatabase= FirebaseDatabase.getInstance()
         reference=firebaseDatabase.getReference("MyUsers")
-        reference.setValue(user?.email)
-
+        list=ArrayList()
+        list.add(user)
+        reference.setValue(user.fullName)
+        rvAdapter=RvAdapter(list)
+        binding.rv.adapter=rvAdapter
     }
 }

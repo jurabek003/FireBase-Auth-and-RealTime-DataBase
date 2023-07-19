@@ -14,11 +14,14 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.databinding.ActivityMainBinding
+import uz.turgunboyevjurabek.firebaseauthandrealtimedatabase.madels.User
+
 private const val TAG="MainActivity"
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var auth: FirebaseAuth
     private lateinit var resendingToken: PhoneAuthProvider.ForceResendingToken
+    private lateinit var user: User
     lateinit var googleSignInClient: GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,8 @@ class MainActivity : AppCompatActivity() {
             try {
                 val account=task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken)
+               user=User(account.id.toString(),account.displayName.toString(),account.photoUrl.toString())
+
             }catch (e:ApiException){
 
                 Log.d(TAG,"Google sign in failed")
@@ -61,7 +66,9 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 if (it.isSuccessful){
                     Toast.makeText(this, "Mufaqqiyatli ura", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this,MainActivity2::class.java))
+                    val intent=Intent(this,MainActivity2::class.java)
+                    intent.putExtra("key",user)
+                    startActivity(intent)
                 }else{
                     Toast.makeText(this, "Mufaqqiyatli emas vay", Toast.LENGTH_SHORT).show()
                 }
